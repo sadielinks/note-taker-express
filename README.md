@@ -4,7 +4,7 @@ By: Sadie Sial
 
 ___
 
-![mit](https://img.shields.io/badge/license-MIT-blue)
+![mit](https://img.shields.io/badge/license-MIT-lightblue)
 
 #### Table of Contents
 
