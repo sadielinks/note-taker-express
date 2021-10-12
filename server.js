@@ -31,10 +31,30 @@ app.get('/api/notes', (req, res) => {
     res.json(dataThatBase);
   });
 
-// GET to create and use id's
-
+// GET to create and use id's using middleware documentation notes heheh
+const 
+app.post('/api/notes', (req, res) => {
+    dataThatBase.forEach(obj => obj.id = uuid)
+});
 
 // POST so that as user adds notes, it's added to ad.json
+
+
+// app.post('/api/notes', (req, res) => {
+//     const notesDB = require('./db/db.json');
+    
+//     notesDB.forEach(obj => obj.id = uuidv4());
+    
+//     const newNote = req.body;
+//     newNote.id = uuidv4();
+//     notesDB.push(newNote);
+    
+//     fs.writeFile('./db/db.json', JSON.stringify(notesDB), err => {})
+    
+//     res.json(newNote); 
+// })
+
+
 
 // writeFile() note creation
 
