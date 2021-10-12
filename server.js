@@ -24,11 +24,16 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/notes.html'));
   });
 
-// 
-app.get('/api', (req, res) => {
+// GET connection to db.json spec. with notes
+app.get('/api/notes', (req, res) => {
+    // 
     res.json({
-      term: 'api',
-      description:
-        'An application programming interface, is a computing interface that defines interactions between multiple software intermediaries',
+    
     });
   });
+
+// POST so that as user adds notes, it's added to ad.json
+
+// writeFile() note creation
+
+// DELETE uses id to remove at btn click
