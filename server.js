@@ -39,8 +39,10 @@ app.post('/api/notes', (req, res) => {
     const writeThatNote = req.body;
     writeThatNote.id = uuidv4();
     dataThatBase.push(writeThatNote);
-    // make writeFile()
+    // make writeFile() + using db.json
     fs.writeFile('./db/db.json', JSON.stringify(writeThatNote), err => {})
+    console.log('did this work yet?')
+    // call it!
     res.json(writeThatNote); 
 });
 
