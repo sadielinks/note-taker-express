@@ -25,11 +25,10 @@ app.get('/notes', (req, res) => {
   });
 
 // GET connection to db.json spec. with notes
+const dataThatBase = require('./db/db.json');
 app.get('/api/notes', (req, res) => {
-    // 
-    res.json({
-    
-    });
+    // grabbing db.json
+    res.json(dataThatBase);
   });
 
 // POST so that as user adds notes, it's added to ad.json
