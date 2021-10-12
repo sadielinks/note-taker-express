@@ -37,9 +37,11 @@ app.post('/api/notes', (req, res) => {
     dataThatBase.forEach(obj => obj.id = uuid());
     // assign variable for writeFile
     const writeThatNote = req.body;
-    writeThatNote.id = 
-
-
+    writeThatNote.id = uuidv4();
+    dataThatBase.push(writeThatNote);
+    // make writeFile()
+    fs.writeFile('./db/db.json', JSON.stringify(writeThatNote), err => {})
+    res.json(writeThatNote); 
 });
 
 // POST so that as user adds notes, it's added to ad.json
