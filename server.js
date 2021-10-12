@@ -31,6 +31,9 @@ app.get('/api/notes', (req, res) => {
     res.json(dataThatBase);
   });
 
+// GET to create and use id's
+
+
 // POST so that as user adds notes, it's added to ad.json
 
 // writeFile() note creation
