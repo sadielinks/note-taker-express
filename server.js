@@ -51,3 +51,9 @@ app.post('/api/notes', (req, res) => {
 
 
 // DELETE uses id to remove at btn click
+
+
+// LISTEN has the server connected
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT} - YAY!`);
+});
