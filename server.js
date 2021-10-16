@@ -75,8 +75,11 @@ app.delete("/api/notes/:id", (req, res) => {
   // 
   fs.writeFile("./db/db.json", JSON.stringify(notes), err => {
     if (err) throw err;
-    console.log("The file has been saved!");
+    console.log('did this work? lololol');
 })
+// call it!
+res.json(notes);
+});
 
   // LISTEN has the server connected
 app.listen(PORT, () => {
