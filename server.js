@@ -59,20 +59,24 @@ app.post("/api/notes", function (req, res) {
 });
 
 
-// DELETE uses id to remove at btn click
-// app.delete("/api/notes/:id", (req, res) => {
-//   // params.id locates in db.json
-//   const thisNote = req.params.id;
-//   // Create a notes array by reading db.json
-//   const notes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
-//   // thisNote must match (==) the URL in order to delete it
-//   for (let i = 0; i < notes.length; i++) {
-//       if (thisNote == notes[i].id) {
-//         notes.splice(notes.indexOf(notes[i]), 1);
-//       };
-//   };
-
-//   // 
+// DELETE uses id to remove
+app.delete("/api/notes/:id", (req, res) => {
+  // params.id locates in db.json
+  const thisNote = req.params.id;
+  // Create a notes array by reading db.json
+  const notes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
+  // thisNote must match (==) the URL in order to delete it
+  for (let i = 0; i < notes.length; i++) {
+      if (thisNote == notes[i].id) {
+        // then remove...
+        notes.splice(notes.indexOf(notes[i]), 1);
+      };
+  };
+  // 
+  fs.writeFile("./db/db.json", JSON.stringify(notes), err => {
+    if (err) throw err;
+    console.log("The file has been saved!");
+})
 
   // LISTEN has the server connected
 app.listen(PORT, () => {
