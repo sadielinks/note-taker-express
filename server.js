@@ -61,13 +61,13 @@ app.post("/api/notes", function (req, res) {
 
 // DELETE uses id to remove at btn click
 app.delete("/api/notes/:id", (req, res) => {
-  // params help find the id
-  const chosen = req.params.id;
+  // params.id locates in db.json
+  const thisNote = req.params.id;
   // Create a notes array by reading db.json
   const notes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
-  // If the chosen id in the URL matches the id of the note, delete it from the notes array
+  // thisNote must match (==) the URL in order to delete it
   for (let i = 0; i < notes.length; i++) {
-      if (chosen == notes[i].id) {
+      if (thisNote == notes[i].id) {
         notes.splice(notes.indexOf(notes[i]), 1);
       };
   };
