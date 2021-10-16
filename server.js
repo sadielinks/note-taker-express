@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const util = require('util');
+const writeFileAsync = util.promisify(fs.writeFile);
 
 // express items
 const app = express();
@@ -46,7 +47,7 @@ app.post('/api/notes', (req, res) => {
     res.json(writeThatNote); 
 });
 
-// POST so that as user adds notes, it's added to ad.json
+// POST so that as user adds notes, it's added to ad.json, taking from class notes:
 app.post("/api/notes", function (req, res) {
   req.body.id = uuidv4();
   // adding to the db.json
@@ -59,27 +60,54 @@ app.post("/api/notes", function (req, res) {
 });
 
 
+// // DELETE uses id to remove
+// app.delete("/api/notes/:id", (req, res) => {
+//   // params.id locates in db.json
+//   const thisNote = req.params.id;
+//   // Create a notes array by reading db.json
+//   const notes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
+//   // thisNote must match (==) the URL in order to delete it
+//   for (let i = 0; i < notes.length; i++) {
+//       if (thisNote == notes[i].id) {
+//         // then remove...
+//         notes.splice(notes.indexOf(notes[i]), 1);
+//       };
+//   };
+//   // 
+//   fs.writeFile("./db/db.json", JSON.stringify(notes), err => {
+//     if (err) throw err;
+//     console.log('did this work? lololol');
+// })
+// // call it!
+// res.json(notes);
+// });
+
+
 // DELETE uses id to remove
-app.delete("/api/notes/:id", (req, res) => {
-  // params.id locates in db.json
-  const thisNote = req.params.id;
-  // Create a notes array by reading db.json
-  const notes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
-  // thisNote must match (==) the URL in order to delete it
-  for (let i = 0; i < notes.length; i++) {
-      if (thisNote == notes[i].id) {
-        // then remove...
-        notes.splice(notes.indexOf(notes[i]), 1);
-      };
-  };
-  // 
-  fs.writeFile("./db/db.json", JSON.stringify(notes), err => {
-    if (err) throw err;
-    console.log('did this work? lololol');
-})
-// call it!
-res.json(notes);
+app.delete("/api/notes/:id", function (req, res) {
+  // sort thru them notes...
+  let dataThatBase = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+  let noteID = req.params.id;
+  console.log(noteID);
+  newNotesDB = notesDB.filter((currentNote) => {
+    return currentNote.id != noteID;
+  });
+
+  writeFileAsync("./db/db.json", JSON.stringify(newNotesDB))
+  .then(() => res.json(newNotesDB));
 });
+
+// GET * - Should return the `index.html` file
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});
+
+
+
+
+
+
+
 
   // LISTEN has the server connected
 app.listen(PORT, () => {
