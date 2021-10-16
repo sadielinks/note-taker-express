@@ -47,13 +47,34 @@ app.post('/api/notes', (req, res) => {
 });
 
 // POST so that as user adds notes, it's added to ad.json
-
+app.post("/api/notes", function (req, res) {
+  req.body.id = uuidv4();
+  // adding to the db.json
+  dataThatBase.push(req.body);
+  //   write... that... file!
+  fs.writeFile("./db/db.json", JSON.stringify(dataThatBase), function () {
+  });
+  // call it!
+  res.json(true);
+});
 
 
 // DELETE uses id to remove at btn click
+app.delete("/api/notes/:id", (req, res) => {
+  // Grab the id in the URL
+  const chosen = req.params.id;
+  // Create a notes array by reading db.json
+  const notes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+  // If the chosen id in the URL matches the id of the note, delete it from the notes array
+  for (let i = 0; i < notes.length; i++) {
+      if (chosen == notes[i].id) {
+        notes.splice(notes.indexOf(notes[i]), 1);
+      };
+  };
 
+  // 
 
-// LISTEN has the server connected
+  // LISTEN has the server connected
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} - YAY!`);
 });
