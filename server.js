@@ -61,7 +61,7 @@ app.post("/api/notes", function (req, res) {
 
 // DELETE uses id to remove at btn click
 app.delete("/api/notes/:id", (req, res) => {
-  // Grab the id in the URL
+  // params help find the id
   const chosen = req.params.id;
   // Create a notes array by reading db.json
   const notes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
