@@ -9,7 +9,6 @@ ___
 #### Table of Contents
 
 * [Description](#description)
-* [Installation](#installation)
 * [Usage](#usage)
 * [Technologies](#technologies)
 * [Screenshots](#screenshots)
@@ -20,8 +19,7 @@ ___
 
 ## Description <br>
 
-This IS A WORK IN PROGRESS
-
+This is an web page application built with Express.js using data stored within a JSON file. Users can create, save, and delete their notes from their Note Taker. 
 
 
 ### User Story:
@@ -48,14 +46,6 @@ WHEN I click on the Write icon in the navigation at the top of the page
 THEN I am presented with empty fields to enter a new note title and the note’s text in the right-hand column
 ```
 
-## Installation
-
-
-
-## Usage
-
-
-
 ## Technologies
 
 The technologies used to create this program were: 
@@ -67,14 +57,20 @@ The technologies used to create this program were:
 ## Screenshots
 
 ```
+Welcome Screen
 ```
-![Screenshot]()
+![Screenshot](public/assets/images/screenshot.png)
 
 
 ```
+Initial Note Screen
 ```
+![Screenshot](public/assets/images/screenshot2.png)
 
-![Screenshot]()
+```
+Completed Sample Screen
+```
+![Screenshot](public/assets/images/screenshot3.png)
 
 
 <br>

@@ -34,7 +34,7 @@ app.get('/api/notes', (req, res) => {
 
 // to create and use id's using npm documentation (https://www.npmjs.com/package/uuid) heheh
 app.get("/api/notes/:id", (req, res) => {
-  let savedNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+  let savedNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
   res.json(savedNotes[Number(req.params.id)]);
 });
 
@@ -53,7 +53,7 @@ app.post('/api/notes', (req, res) => {
 
 // DELETE uses id to remove, worked with TA - will delete + edit notes thru this larger function
 app.delete('/api/notes/:id', (req, res) => {
-  let dataThatBase = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
+  let dataThatBase = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'));
   // assign variable for finding thru ID
   let notesID = req.params.id;
   // new notes to db.json
