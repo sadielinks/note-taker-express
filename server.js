@@ -72,7 +72,6 @@ app.delete("/api/notes/:id", (req, res) => {
     const note = currentNotes[i];
     if (note) {
       if (note.id == byeToThisID) {
-        // At position [i] remove 1 item which is the note of the selected ID
         currentNotes.splice(i, 1);
       }
     }
@@ -84,13 +83,10 @@ app.delete("/api/notes/:id", (req, res) => {
       note.id = i;
     }
   }
-  // Then rewrite the file
+  // have db.json re-arranged as well
   fs.writeFileSync("./db/db.json", JSON.stringify(currentNotes));
   res.end();
 });
-
-
-//
 
 // LISTEN has the server connected
 app.listen(PORT, () => {
