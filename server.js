@@ -1,8 +1,8 @@
 // adding npm dependencies
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
-const util = require('util');
+const express = require("express");
+const path = require("path");
+const fs = require("fs");
+const util = require("util");
 const writeFileAsync = util.promisify(fs.writeFile);
 
 // express items
@@ -14,31 +14,31 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // static middleware for public/assets contents
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 // GET request for root (main html) + notes (notes html) routes
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/notes.html'));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/notes.html"));
 });
 
-app.get('/notes', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/notes.html'));
+app.get("/notes", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/notes.html"));
 });
 
 // GET connection to db.json spec. with notes
 const dataThatBase = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
-app.get('/api/notes', (req, res) => {
+app.get("/api/notes", (req, res) => {
   // grabbing db.json
   res.json(dataThatBase);
 });
 
 // POST to add in user notes
-const { v4: uuidv4 } = require('uuid');
-app.post('/api/notes', (req, res) => {
+const { v4: uuidv4 } = require("uuid");
+app.post("/api/notes", (req, res) => {
   req.body.id = uuidv4();
   dataThatBase.push(req.body);
   // make writeFile() + using db.json
-  fs.writeFile('./db/db.json', JSON.stringify(dataThatBase), function () {
+  fs.writeFile("./db/db.json", JSON.stringify(dataThatBase), function () {
     // console.log('did this work yet?!')
   });
   // call it!
@@ -53,7 +53,7 @@ app.get("/api/notes/:id", (req, res) => {
 // DELETE uses id to remove, worked with TA - will delete + edit notes thru this larger function
 app.delete("/api/notes/:id", (req, res) => {
   let byeToThisID = req.params.id;
-  // sort thru db.json for ID 
+  // sort thru db.json for ID
   for (var i = 0; i < dataThatBase.length; i++) {
     const note = dataThatBase[i];
     if (note) {
