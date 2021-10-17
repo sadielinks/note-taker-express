@@ -32,7 +32,7 @@ app.get('/api/notes', (req, res) => {
     res.json(dataThatBase);
   });
 
-// GET to create and use id's using npm documentation (https://www.npmjs.com/package/uuid) heheh
+// to create and use id's using npm documentation (https://www.npmjs.com/package/uuid) heheh
 const { v4: uuidv4 } = require('uuid');
 app.post('/api/notes', (req, res) => {
     dataThatBase.forEach(obj => obj.id = uuid());
@@ -47,37 +47,18 @@ app.post('/api/notes', (req, res) => {
     res.json(writeThatNote); 
 });
 
-// POST so that as user adds notes, it's added to ad.json, taking from class notes:
-app.post("/api/notes", function (req, res) {
-  req.body.id = uuidv4();
-  // adding to the db.json
-  dataThatBase.push(req.body);
-  //   write... that... file!
-  fs.writeFile("./db/db.json", JSON.stringify(dataThatBase), function () {
-  });
-  // call it!
-  res.json(true);
-});
-
 // DELETE uses id to remove
-app.delete("/api/notes/:id", function (req, res) {
-  // sort thru them notes...
-  let dataThatBase = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
-  let noteID = req.params.id;
-  newNotesDB = dataThatBase.filter((currentNote) => {
-    return currentNote.id != noteID;
-  });
+app.delete('/api/notes/:id', function (req, res){
+  let dataThatBase = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'))
 
-  // write... that... file!
-  writeFileAsync("./db/db.json", JSON.stringify(newNotesDB))
-  .then(() => res.json(newNotesDB));
 });
 
-// GET * - Should return the `index.html` file
-app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
-});
 
+
+
+
+
+//
   // LISTEN has the server connected
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} - YAY!`);
