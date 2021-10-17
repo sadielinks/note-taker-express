@@ -60,11 +60,6 @@ app.delete('/api/notes/:id', function (req, res){
   writeFileAsync('./db/db.json', JSON.stringify(newNoteData));
 });
 
-// have DOM returned via index.html
-app.get('*', function (req, res) {
-  res.sendFile(path.join(__dirname, '/public/index.html'));
-});
-
 //
   // LISTEN has the server connected
 app.listen(PORT, () => {
