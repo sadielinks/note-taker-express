@@ -21,25 +21,28 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/index.html'));
   });
 
-app.get('/notes', (req, res) => {
+app.get('/notes', function (req, res) {
     res.sendFile(path.join(__dirname, '/public/notes.html'));
   });
 
 // GET connection to db.json spec. with notes
 const dataThatBase = require('./db/db.json');
-app.get('/api/notes', (req, res) => {
+app.get('/api/notes', function (req, res) {
     // grabbing db.json
     res.json(dataThatBase);
   });
 
 // to create and use id's using npm documentation (https://www.npmjs.com/package/uuid) heheh
+app.get("/api/notes/:id", function (req, res) {
+  let savedNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+  res.json(savedNotes[Number(req.params.id)]);
+});
+
+// POST to add in user notes
 const { v4: uuidv4 } = require('uuid');
-app.post('/api/notes', (req, res) => {
-    dataThatBase.forEach(obj => obj.id = uuid());
-    // assign variable for writeFile
-    const writeThatNote = req.body;
-    writeThatNote.id = uuidv4();
-    dataThatBase.push(writeThatNote);
+app.post('/api/notes', function (req, res) {
+    req.body.id = uuidv4();
+    dataThatBase.push(req.body);
     // make writeFile() + using db.json
     fs.writeFile('./db/db.json', JSON.stringify(writeThatNote), err => {})
     console.log('did this work yet?')
