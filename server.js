@@ -44,10 +44,11 @@ app.post('/api/notes', function (req, res) {
     req.body.id = uuidv4();
     dataThatBase.push(req.body);
     // make writeFile() + using db.json
-    fs.writeFile('./db/db.json', JSON.stringify(writeThatNote), err => {})
-    console.log('did this work yet?')
+    fs.writeFile('./db/db.json', JSON.stringify(dataThatBase), function () {
+      // console.log('did this work yet?!')
+    });
     // call it!
-    res.json(writeThatNote); 
+    res.json(true); 
 });
 
 // DELETE uses id to remove, worked with TA - will delete + edit notes thru this larger function
