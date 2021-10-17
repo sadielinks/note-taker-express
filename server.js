@@ -56,13 +56,14 @@ app.delete('/api/notes/:id', function (req, res){
   newNoteData = dataThatBase.filter((myNoteNow) => {
     return myNoteNow.id != notesID;
   })
-  
+  // util const from earlier in call:
+  writeFileAsync('./db/db.json', JSON.stringify(newNoteData));
 });
 
-
-
-
-
+// have DOM returned via index.html
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, '/public/index.html'));
+});
 
 //
   // LISTEN has the server connected
