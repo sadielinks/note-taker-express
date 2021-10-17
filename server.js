@@ -18,19 +18,19 @@ app.use(express.static('public'));
 
 // GET request for root (main html) + notes (notes html) routes
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/index.html'));
-  });
+  res.sendFile(path.join(__dirname, '/public/index.html'));
+});
 
 app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, '/public/notes.html'));
-  });
+  res.sendFile(path.join(__dirname, '/public/notes.html'));
+});
 
 // GET connection to db.json spec. with notes
 const dataThatBase = require('./db/db.json');
 app.get('/api/notes', (req, res) => {
-    // grabbing db.json
-    res.json(dataThatBase);
-  });
+  // grabbing db.json
+  res.json(dataThatBase);
+});
 
 // to create and use id's using npm documentation (https://www.npmjs.com/package/uuid) heheh
 app.get("/api/notes/:id", (req, res) => {
@@ -41,30 +41,58 @@ app.get("/api/notes/:id", (req, res) => {
 // POST to add in user notes
 const { v4: uuidv4 } = require('uuid');
 app.post('/api/notes', (req, res) => {
-    req.body.id = uuidv4();
-    dataThatBase.push(req.body);
-    // make writeFile() + using db.json
-    fs.writeFile('./db/db.json', JSON.stringify(dataThatBase), function () {
-      // console.log('did this work yet?!')
-    });
-    // call it!
-    res.json(true); 
+  req.body.id = uuidv4();
+  dataThatBase.push(req.body);
+  // make writeFile() + using db.json
+  fs.writeFile('./db/db.json', JSON.stringify(dataThatBase), function () {
+    // console.log('did this work yet?!')
+  });
+  // call it!
+  res.json(true);
 });
+
+// // DELETE uses id to remove, worked with TA - will delete + edit notes thru this larger function
+// app.delete('/api/notes/:id', (req, res) => {
+//   let dataThatBase = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'));
+//   // assign variable for finding thru ID
+//   let notesID = req.params.id;
+//   // new notes to db.json
+//   newNoteData = dataThatBase.filter((myNoteNow) => {
+//     return myNoteNow.id != notesID;
+//   })
+//   // util const from earlier in call:
+//   writeFileAsync('./db/db.json', JSON.stringify(newNoteData));
+// });
 
 // DELETE uses id to remove, worked with TA - will delete + edit notes thru this larger function
-app.delete('/api/notes/:id', (req, res) => {
-  let dataThatBase = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'));
-  // assign variable for finding thru ID
-  let notesID = req.params.id;
-  // new notes to db.json
-  newNoteData = dataThatBase.filter((myNoteNow) => {
-    return myNoteNow.id != notesID;
-  })
-  // util const from earlier in call:
-  writeFileAsync('./db/db.json', JSON.stringify(newNoteData));
+app.delete("/api/notes/:id", (req, res) => {
+  let byeToThisID = req.params.id;
+  // sort thru db.json for ID 
+  for (var i = 0; i < currentNotes.length; i++) {
+    const note = currentNotes[i];
+    if (note) {
+      if (note.id == byeToThisID) {
+        // At position [i] remove 1 item which is the note of the selected ID
+        currentNotes.splice(i, 1);
+      }
+    }
+  }
+  // looping through to have the notes display in new order, after others have been deleted
+  for (var i = 1; i < currentNotes.length; i++) {
+    const note = currentNotes[i];
+    if (note) {
+      note.id = i;
+    }
+  }
+  // Then rewrite the file
+  fs.writeFileSync("./db/db.json", JSON.stringify(currentNotes));
+  res.end();
 });
 
-  // LISTEN has the server connected
+
+//
+
+// LISTEN has the server connected
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT} - YAY!`);
 });
