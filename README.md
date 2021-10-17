@@ -9,7 +9,6 @@ ___
 #### Table of Contents
 
 * [Description](#description)
-* [Usage](#usage)
 * [Technologies](#technologies)
 * [Screenshots](#screenshots)
 * [Links](#links)
