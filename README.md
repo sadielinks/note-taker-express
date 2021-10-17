@@ -76,9 +76,9 @@ Completed Sample Screen
 
 ## Links
 
-- [Link]()
+- [Deployed Heroku App](https://your-note-taker-here.herokuapp.com/)
 
-- [GitHub Repository](https://github.com/sadielinks/note-taker)
+- [GitHub Repository](https://github.com/sadielinks/note-taker-express)
 
 <br>
 
