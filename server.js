@@ -53,11 +53,11 @@ app.post('/api/notes', (req, res) => {
 
 // DELETE uses id to remove, worked with TA - will delete + edit notes thru this larger function
 app.delete('/api/notes/:id', (req, res) => {
-  let savedNotes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
+  let dataThatBase = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
   // assign variable for finding thru ID
   let notesID = req.params.id;
   // new notes to db.json
-  newNoteData = savedNotes.filter((myNoteNow) => {
+  newNoteData = dataThatBase.filter((myNoteNow) => {
     return myNoteNow.id != notesID;
   })
   // util const from earlier in call:
