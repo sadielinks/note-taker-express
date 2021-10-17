@@ -59,40 +59,16 @@ app.post("/api/notes", function (req, res) {
   res.json(true);
 });
 
-
-// // DELETE uses id to remove
-// app.delete("/api/notes/:id", (req, res) => {
-//   // params.id locates in db.json
-//   const thisNote = req.params.id;
-//   // Create a notes array by reading db.json
-//   const notes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
-//   // thisNote must match (==) the URL in order to delete it
-//   for (let i = 0; i < notes.length; i++) {
-//       if (thisNote == notes[i].id) {
-//         // then remove...
-//         notes.splice(notes.indexOf(notes[i]), 1);
-//       };
-//   };
-//   // 
-//   fs.writeFile("./db/db.json", JSON.stringify(notes), err => {
-//     if (err) throw err;
-//     console.log('did this work? lololol');
-// })
-// // call it!
-// res.json(notes);
-// });
-
-
 // DELETE uses id to remove
 app.delete("/api/notes/:id", function (req, res) {
   // sort thru them notes...
   let dataThatBase = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
   let noteID = req.params.id;
-  console.log(noteID);
-  newNotesDB = notesDB.filter((currentNote) => {
+  newNotesDB = dataThatBase.filter((currentNote) => {
     return currentNote.id != noteID;
   });
 
+  // write... that... file!
   writeFileAsync("./db/db.json", JSON.stringify(newNotesDB))
   .then(() => res.json(newNotesDB));
 });
@@ -101,13 +77,6 @@ app.delete("/api/notes/:id", function (req, res) {
 app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "/public/index.html"));
 });
-
-
-
-
-
-
-
 
   // LISTEN has the server connected
 app.listen(PORT, () => {
