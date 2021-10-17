@@ -18,7 +18,7 @@ app.use(express.static('public'));
 
 // GET request for root (main html) + notes (notes html) routes
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/public/index.html'));
+  res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
 
 app.get('/notes', (req, res) => {
@@ -26,16 +26,10 @@ app.get('/notes', (req, res) => {
 });
 
 // GET connection to db.json spec. with notes
-const dataThatBase = require('./db/db.json');
+const dataThatBase = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
 app.get('/api/notes', (req, res) => {
   // grabbing db.json
   res.json(dataThatBase);
-});
-
-// to create and use id's using npm documentation (https://www.npmjs.com/package/uuid) heheh
-app.get("/api/notes/:id", (req, res) => {
-  let savedNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
-  res.json(savedNotes[Number(req.params.id)]);
 });
 
 // POST to add in user notes
@@ -51,40 +45,32 @@ app.post('/api/notes', (req, res) => {
   res.json(true);
 });
 
-// // DELETE uses id to remove, worked with TA - will delete + edit notes thru this larger function
-// app.delete('/api/notes/:id', (req, res) => {
-//   let dataThatBase = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'));
-//   // assign variable for finding thru ID
-//   let notesID = req.params.id;
-//   // new notes to db.json
-//   newNoteData = dataThatBase.filter((myNoteNow) => {
-//     return myNoteNow.id != notesID;
-//   })
-//   // util const from earlier in call:
-//   writeFileAsync('./db/db.json', JSON.stringify(newNoteData));
-// });
+// to create and use id's using npm documentation (https://www.npmjs.com/package/uuid) heheh
+app.get("/api/notes/:id", (req, res) => {
+  res.json(dataThatBase[Number(req.params.id)]);
+});
 
 // DELETE uses id to remove, worked with TA - will delete + edit notes thru this larger function
 app.delete("/api/notes/:id", (req, res) => {
   let byeToThisID = req.params.id;
   // sort thru db.json for ID 
-  for (var i = 0; i < currentNotes.length; i++) {
-    const note = currentNotes[i];
+  for (var i = 0; i < dataThatBase.length; i++) {
+    const note = dataThatBase[i];
     if (note) {
       if (note.id == byeToThisID) {
-        currentNotes.splice(i, 1);
+        dataThatBase.splice(i, 1);
       }
     }
   }
   // looping through to have the notes display in new order, after others have been deleted
-  for (var i = 1; i < currentNotes.length; i++) {
-    const note = currentNotes[i];
+  for (var i = 1; i < dataThatBase.length; i++) {
+    const note = dataThatBase[i];
     if (note) {
       note.id = i;
     }
   }
   // have db.json re-arranged as well
-  fs.writeFileSync("./db/db.json", JSON.stringify(currentNotes));
+  fs.writeFileSync("./db/db.json", JSON.stringify(dataThatBase));
   res.end();
 });
 
